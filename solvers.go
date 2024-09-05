@@ -387,6 +387,7 @@ func (m *DNSManager) createRecord(ctx context.Context, dnsName, recordType, reco
 
 	zone, err := findZoneByFQDN(logger, dnsName, recursiveNameservers(m.Resolvers))
 	if err != nil {
+		fmt.Printf("createRecord: findZoneByFQDN errored with %s\n", err)
 		return zoneRecord{}, fmt.Errorf("could not determine zone for domain %q: %v", dnsName, err)
 	}
 	rec := libdns.Record{
@@ -407,7 +408,7 @@ func (m *DNSManager) createRecord(ctx context.Context, dnsName, recordType, reco
 	results, err := m.DNSProvider.AppendRecords(ctx, zone, []libdns.Record{rec})
 	appendJson, err2 := json.Marshal(results)
 	if err2 != nil {
-		fmt.Printf("AppendRecords returned %s with err %s\n", appendJson, err)
+		fmt.Printf("createRecord: AppendRecords returned %s with err %s\n", appendJson, err)
 	}
 	if err != nil {
 		return zoneRecord{}, fmt.Errorf("adding temporary record for zone %q: %w", zone, err)
