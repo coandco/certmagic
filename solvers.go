@@ -405,6 +405,10 @@ func (m *DNSManager) createRecord(ctx context.Context, dnsName, recordType, reco
 		zap.Duration("record_ttl", rec.TTL))
 
 	results, err := m.DNSProvider.AppendRecords(ctx, zone, []libdns.Record{rec})
+	appendJson, err2 := json.Marshal(results)
+	if err2 != nil {
+		fmt.Printf("AppendRecords returned %s with err %s\n", appendJson, err)
+	}
 	if err != nil {
 		return zoneRecord{}, fmt.Errorf("adding temporary record for zone %q: %w", zone, err)
 	}
