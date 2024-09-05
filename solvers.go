@@ -270,7 +270,7 @@ func (s *DNS01Solver) Present(ctx context.Context, challenge acme.Challenge) err
 
 	zrecJson, err := json.Marshal(zrec)
 	if err == nil {
-		fmt.Printf("DNS01Solver.Present createRecord return: %s\n", memJson)
+		fmt.Printf("DNS01Solver.Present createRecord return: %s\n", zrecJson)
 	}
 
 	// remember the record and zone we got so we can clean up more efficiently
