@@ -546,6 +546,12 @@ func (s *DNSManager) getDNSPresentMemory(dnsName, recType, value string) (dnsPre
 	s.recordsMu.Lock()
 	defer s.recordsMu.Unlock()
 
+	fmt.Printf("getDNSPresentMemory called with %s %s %s\n", dnsName, recType, value)
+	memJson, err := json.Marshal(s.records)
+	if err == nil {
+		fmt.Printf("getDNSPresentMemory existing records: %s\n", memJson)
+	}
+
 	var memory dnsPresentMemory
 	for _, mem := range s.records[dnsName] {
 		if mem.zoneRec.record.Type == recType && mem.zoneRec.record.Value == value {
