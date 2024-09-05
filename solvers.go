@@ -269,11 +269,6 @@ func (s *DNS01Solver) Present(ctx context.Context, challenge acme.Challenge) err
 		return err
 	}
 
-	zrecJson, err := json.Marshal(zrec)
-	if err == nil {
-		fmt.Printf("DNS01Solver.Present createRecord return: %s\n", zrecJson)
-	}
-
 	// remember the record and zone we got so we can clean up more efficiently
 	s.saveDNSPresentMemory(dnsPresentMemory{
 		dnsName: dnsName,
@@ -561,10 +556,8 @@ func (s *DNSManager) getDNSPresentMemory(dnsName, recType, value string) (dnsPre
 	defer s.recordsMu.Unlock()
 
 	fmt.Printf("getDNSPresentMemory called with %s %s %s\n", dnsName, recType, value)
-	memJson, err := json.Marshal(s.records)
-	if err == nil {
-		fmt.Printf("getDNSPresentMemory existing records: %s\n", memJson)
-	}
+	fmt.Println("getDNSPresentMemory existing records follow:")
+	repr.Print(&s.records)
 
 	var memory dnsPresentMemory
 	for _, mem := range s.records[dnsName] {
