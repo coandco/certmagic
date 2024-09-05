@@ -416,7 +416,8 @@ func (m *DNSManager) createRecord(ctx context.Context, dnsName, recordType, reco
 	if len(results) != 1 {
 		return zoneRecord{}, fmt.Errorf("expected one record, got %d: %v", len(results), results)
 	}
-
+	finalJson, err := json.Marshal(zoneRecord{zone, results[0]})
+	fmt.Printf("createRecord: final return value is %s with err %s\n", finalJson, err)
 	return zoneRecord{zone, results[0]}, nil
 }
 
