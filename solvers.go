@@ -263,8 +263,14 @@ func (s *DNS01Solver) Present(ctx context.Context, challenge acme.Challenge) err
 	keyAuth := challenge.DNS01KeyAuthorization()
 
 	zrec, err := s.DNSManager.createRecord(ctx, dnsName, "TXT", keyAuth)
+
 	if err != nil {
 		return err
+	}
+
+	zrecJson, err := json.Marshal(zrec)
+	if err == nil {
+		fmt.Printf("DNS01Solver.Present createRecord return: %s\n", memJson)
 	}
 
 	// remember the record and zone we got so we can clean up more efficiently
