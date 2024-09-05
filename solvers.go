@@ -29,6 +29,7 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/alecthomas/repr"
 	"github.com/libdns/libdns"
 	"github.com/mholt/acmez/v2"
 	"github.com/mholt/acmez/v2/acme"
@@ -416,11 +417,10 @@ func (m *DNSManager) createRecord(ctx context.Context, dnsName, recordType, reco
 	if len(results) != 1 {
 		return zoneRecord{}, fmt.Errorf("expected one record, got %d: %v", len(results), results)
 	}
-	unwrappedResults, err := json.Marshal(results[0])
-	fmt.Printf("createRecord: raw zone/results %s/%s (err %s)\n", zone, unwrappedResults, err)
-	finalJson, err := json.Marshal(zoneRecord{zone, results[0]})
-	fmt.Printf("createRecord: final return value is %s with err %s\n", finalJson, err)
-	return zoneRecord{zone, results[0]}, nil
+	fmt.Println("createRecord: final return value repr follows")
+	out := zoneRecord{zone, results[0]}
+	repr.Print(&out)
+	return out, nil
 }
 
 // wait blocks until the TXT record created in Present() appears in

@@ -5,6 +5,7 @@ go 1.21.0
 toolchain go1.22.2
 
 require (
+	github.com/alecthomas/repr v0.4.0
 	github.com/caddyserver/zerossl v0.1.3
 	github.com/klauspost/cpuid/v2 v2.2.7
 	github.com/libdns/libdns v0.2.2
